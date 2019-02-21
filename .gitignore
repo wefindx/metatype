@@ -1,2 +1,4 @@
 .env
 *__pycache__*
+dist
+metatype.egg-info/

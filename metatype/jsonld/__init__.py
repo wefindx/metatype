@@ -1,8 +1,8 @@
 KEYMAP = {
-    'id': '-',
-    'type': '*',
-    'auth': '+',
-    'intent': '^'
+    'id': '@id',
+    'type': '@type',
+    'auth': None,
+    'intent': None
 }
 
 class Dict(dict):
