@@ -1,9 +1,10 @@
 from metatype.defacto import KEYMAP as DEFACTO_KEYMAP
 from metatype.mft1 import KEYMAP as MFT1_KEYMAP
 from metatype.jsonld import KEYMAP as JSONLD_KEYMAP
+from metatype.utils import classproperty, PropertyMeta
 
 
-class Dict(dict):
+class Dict(dict, metaclass=PropertyMeta):
     '''
     Accepts: any dictionary, that optionally has keys specifying:
 
@@ -18,6 +19,11 @@ class Dict(dict):
     Dict object, that encodes these attributes to python properties.
 
     '''
+    _DRIVES = []
+
+    @classproperty
+    def drives(cls):
+        return cls._DRIVES
 
     def __init__(self, *args, **kwargs):
         self.update(*args, **kwargs)
