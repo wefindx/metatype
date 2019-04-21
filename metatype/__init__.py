@@ -1,14 +1,13 @@
 import os
+import yaml
 
 from metatype.defacto import KEYMAP as DEFACTO_KEYMAP
 from metatype.mft1 import KEYMAP as MFT1_KEYMAP
 from metatype.jsonld import KEYMAP as JSONLD_KEYMAP
 from metatype.utils import classproperty, PropertyMeta
+from metatype import config
 
 from typology.utils import slug
-
-DATA_DIR = '~/.metadrive/data'
-FILENAME_LENGTH_LIMIT = 143 # Cause ecryptfs supports max 143 chars.
 
 
 class Dict(dict, metaclass=PropertyMeta):
@@ -76,20 +75,28 @@ class Dict(dict, metaclass=PropertyMeta):
         if hasattr(self, 'id'):
             if self.id is not None:
                 s = slug(self.id)
-                fname = s[:FILENAME_LENGTH_LIMIT-5]+'.yaml'
+                # TBD: later, we can use file extensions to denote short form of type
+                #       https-hello-world.::wefindx/Post
+                #       https-hello-world._:Post
+                fname = s[:config.FILENAME_LENGTH_LIMIT-5]+'.yaml'
                 return fname
 
     def get_filedir(self):
         if hasattr(self, 'drive'):
             if self.drive is not None:
-                DATA_PATH = os.path.join(DATA_DIR, self.drive, type(self).__name__)
-                return DATA_PATH
+                DATA_PATH = os.path.join(config.DATA_DIR, self.drive, type(self).__name__)
+            else:
+                DATA_PATH = os.path.join(config.DATA_DIR, 'default', type(self).__name__)
+
+            if not os.path.exists(DATA_PATH):
+                os.makedirs(DATA_PATH)
+
+            return DATA_PATH
 
     def save(self):
-        with open(location, 'w') as f:
-            path = os.path.join(
-                self.get_filedir(),
-                self.get_filename()
-            )
-            with open(path, 'w') as f:
-                f.write(yaml.dump(self))
+        path = os.path.join(
+            self.get_filedir(),
+            self.get_filename()
+        )
+        with open(path, 'w') as f:
+            f.write(yaml.dump(self))
