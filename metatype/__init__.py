@@ -43,31 +43,31 @@ class Dict(dict, metaclass=PropertyMeta):
 
         self.id = None
         for keymap in PRIORITY_SEQUENCE:
-            if keymap.get('id') in self:
+            if keymap.get('id') in self.keys():
                 self.id = self.get(keymap.get('id'))
                 break
 
         self.type = None
         for keymap in PRIORITY_SEQUENCE:
-            if keymap.get('type') in self:
+            if keymap.get('type') in self.keys():
                 self.type = self.get(keymap.get('type'))
                 break
 
         self.auth = None
         for keymap in PRIORITY_SEQUENCE:
-            if keymap.get('auth') in self:
+            if keymap.get('auth') in self.keys():
                 self.auth = self.get(keymap.get('auth'))
                 break
 
         self.intent = None
         for keymap in PRIORITY_SEQUENCE:
-            if keymap.get('intent') in self:
+            if keymap.get('intent') in self.keys():
                 self.intent = self.get(keymap.get('intent'))
                 break
 
         self.drive = None
         for keymap in PRIORITY_SEQUENCE:
-            if keymap.get('drive') in self:
+            if keymap.get('drive') in self.keys():
                 self.drive = self.get(keymap.get('drive'))
                 break
 
@@ -75,7 +75,8 @@ class Dict(dict, metaclass=PropertyMeta):
         if hasattr(self, 'id'):
             if self.id is not None:
                 s = slug(self.id)
-                # TBD: later, we can use file extensions to denote short form of type
+                # POSSIBILITY: to use file extensions to denote short form of type, e.g.:
+                #       https-hello-world.xlsx._Table
                 #       https-hello-world.::wefindx/Post
                 #       https-hello-world._:Post
                 fname = s[:config.FILENAME_LENGTH_LIMIT-5]+'.yaml'

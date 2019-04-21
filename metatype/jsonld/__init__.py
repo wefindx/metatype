@@ -2,7 +2,8 @@ KEYMAP = {
     'id': '@id',
     'type': '@type',
     'auth': None,
-    'intent': None
+    'intent': None,
+    'drive': None,
 }
 
 class Dict(dict):
