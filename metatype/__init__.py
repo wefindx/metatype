@@ -76,9 +76,9 @@ class Dict(dict, metaclass=PropertyMeta):
             if self.id is not None:
                 s = slug(self.id)
                 # POSSIBILITY: to use file extensions to denote short form of type, e.g.:
+                #       https-hello-world._Item
                 #       https-hello-world.xlsx._Table
-                #       https-hello-world.::wefindx/Post
-                #       https-hello-world._:Post
+                #       https-hello-world.::._Tree
                 fname = s[:config.FILENAME_LENGTH_LIMIT-5]+'.yaml'
                 return fname
 
