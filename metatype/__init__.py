@@ -90,7 +90,7 @@ class Dict(dict, metaclass=PropertyMeta):
                 if hasattr(self, 'type'):
                     if isinstance(self.type, str):
                         if self.type.startswith('http'):
-                            sub_extension = url2ext(self.type)
+                            sub_extension = '.' + url2ext(self.type)
 
                 if sub_extension:
                     extension = sub_extension + extension
