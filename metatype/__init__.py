@@ -32,9 +32,7 @@ class Dict(dict, metaclass=PropertyMeta):
     def drives(cls):
         return cls._DRIVES
 
-    def __init__(self, *args, **kwargs):
-        self.update(*args, **kwargs)
-
+    def initialize(self):
         PRIORITY_SEQUENCE = [
             MFT1_KEYMAP,
             JSONLD_KEYMAP,
@@ -70,6 +68,10 @@ class Dict(dict, metaclass=PropertyMeta):
             if keymap.get('drive') in self.keys():
                 self.drive = self.get(keymap.get('drive'))
                 break
+
+    def __init__(self, *args, **kwargs):
+        self.update(*args, **kwargs)
+        self.initialize()
 
     def get_filename(self):
         if hasattr(self, 'id'):
