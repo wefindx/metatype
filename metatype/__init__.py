@@ -8,6 +8,7 @@ from metatype.utils import classproperty, PropertyMeta
 from metatype import config
 
 from typology.utils import slug
+from metawiki import url2ext
 
 
 class Dict(dict, metaclass=PropertyMeta):
@@ -81,7 +82,20 @@ class Dict(dict, metaclass=PropertyMeta):
                 #       https-hello-world._Item
                 #       https-hello-world.xlsx._Table
                 #       https-hello-world.::._Tree
-                fname = s[:config.FILENAME_LENGTH_LIMIT-5]+'.yaml'
+
+                extension = '.yaml'
+
+                sub_extension = ''
+
+                if hasattr(self, 'type'):
+                    if isinstance(self.type, str):
+                        if self.type.startswith('http'):
+                            sub_extension = url2ext(self.type)
+
+                if sub_extension:
+                    extension = sub_extension + extension
+
+                fname = s[:config.FILENAME_LENGTH_LIMIT-len(extension)]+extension
                 return fname
 
     def get_filedir(self):
