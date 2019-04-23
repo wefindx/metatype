@@ -1,5 +1,6 @@
 import os
 import yaml
+import hashlib
 
 from metatype.defacto import KEYMAP as DEFACTO_KEYMAP
 from metatype.mft1 import KEYMAP as MFT1_KEYMAP
@@ -122,14 +123,34 @@ class Dict(dict, metaclass=PropertyMeta):
 
         return sub_extension + extension
 
+    def get_urlhash(self, length=6):
+        '''
+        Get first MD5 hash letters of the url.
+        '''
+        if not hasattr(self, '_id'):
+            self.set_id()
+
+        hsh = hashlib.md5(self._id.encode('utf-8')).hexdigest()
+        return hsh[:length]
+
     def get_filename(self):
+        '''
+        For convenience purposes:
+        1) include the 6-letter hash as prefix.
+        2) include slug of url in between.
+        3) if possible, include sub_extension indicating wiki concept id, and format id.
+        4) include the extension.
+        '''
+
         if not hasattr(self, '_id'):
             self.set_id()
 
         if self._id is not None:
+            hsh = self.get_urlhash() + '.'
             slg = slug(self._id)
             ext = self.get_extension()
-            fname = slg[len(ext)-config.FILENAME_LENGTH_LIMIT:]+ext
+
+            fname = hsh + slg[len(ext)+len(hsh)-config.FILENAME_LENGTH_LIMIT:] + ext
 
         else:
             raise Exception("Can't determine filename without _id. Assign '-' or 'url' key to data, and try again.")
