@@ -119,7 +119,7 @@ class Dict(dict, metaclass=PropertyMeta):
                 if self._type.startswith('http'):
                     sub_extension += url2ext(self._type)
 
-        extension = sub_extension + extension
+        return sub_extension + extension
 
     def get_filename(self):
         if not hasattr(self, '_id'):
