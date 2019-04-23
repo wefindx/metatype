@@ -143,4 +143,4 @@ class Dict(dict, metaclass=PropertyMeta):
 
     def save(self):
         with open(self.get_savepath(), 'w') as f:
-            f.write(yaml.dump(self))
+            f.write(yaml.dump(dict(self)))
