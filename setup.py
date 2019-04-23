@@ -8,7 +8,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='metatype',
-    version='0.1.1.6',
+    version='0.1.1.7',
     description='Implementation of base dict types for metaformat versions.',
     long_description=long_description,
     long_description_content_type='text/markdown',

@@ -128,7 +128,7 @@ class Dict(dict, metaclass=PropertyMeta):
         if self._id is not None:
             slg = slug(self._id)
             ext = self.get_extension()
-            fname = slg[config.FILENAME_LENGTH_LIMIT-len(ext):]+ext
+            fname = slg[len(ext)-config.FILENAME_LENGTH_LIMIT:]+ext
 
         else:
             raise Exception("Can't determine filename without _id. Assign '-' or 'url' key to data, and try again.")
