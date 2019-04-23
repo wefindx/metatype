@@ -131,5 +131,5 @@ class Dict(dict, metaclass=PropertyMeta):
         return os.path.join(dn, fn)
 
     def save(self):
-        with open(get_savepath(), 'w') as f:
+        with open(self.get_savepath(), 'w') as f:
             f.write(yaml.dump(self))
