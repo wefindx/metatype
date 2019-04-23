@@ -36,12 +36,11 @@ class Dict(dict, metaclass=PropertyMeta):
     _DRIVES = []
 
     @classmethod
-    def get_drive(cls, drive, profile):
+    def get_drive_name(cls, drive):
         '''
         A helper function to determine the drive name from:
 
         drive: drive instance,
-        profile: profile name.
 
         Intended to be called in drivers, while drive instance is available, to set '_drive' name attribute.
         '''
