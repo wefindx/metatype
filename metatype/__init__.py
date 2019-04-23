@@ -40,35 +40,45 @@ class Dict(dict, metaclass=PropertyMeta):
 
 
     def set_id(self):
-        self._id = None
+        if not hasattr(self, '_id'):
+            self._id = None
+
         for keymap in PRIORITY_SEQUENCE:
             if keymap.get('_id') in self.keys():
-                self.id = self.get(keymap.get('_id'))
+                self._id = self.get(keymap.get('_id'))
                 break
 
     def set_type(self):
-        self._type = None
+        if not hasattr(self, '_type'):
+            self._type = None
+
         for keymap in PRIORITY_SEQUENCE:
             if keymap.get('_type') in self.keys():
                 self._type = self.get(keymap.get('_type'))
                 break
 
     def set_auth(self):
-        self._auth = None
+        if not hasattr(self, '_auth'):
+            self._auth = None
+
         for keymap in PRIORITY_SEQUENCE:
             if keymap.get('_auth') in self.keys():
                 self._auth = self.get(keymap.get('_auth'))
                 break
 
     def set_intent(self):
-        self._intent = None
+        if not hasattr(self, '_intent'):
+            self._intent = None
+
         for keymap in PRIORITY_SEQUENCE:
             if keymap.get('_intent') in self.keys():
                 self._intent = self.get(keymap.get('_intent'))
                 break
 
     def set_drive(self):
-        self._drive = None
+        if not hasattr(self, '_drive'):
+            self._drive = None
+
         for keymap in PRIORITY_SEQUENCE:
             if keymap.get('_drive') in self.keys():
                 self._drive = self.get(keymap.get('_drive'))
