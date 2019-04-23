@@ -64,11 +64,12 @@ class Dict(dict, metaclass=PropertyMeta):
                 self.intent = self.get(keymap.get('intent'))
                 break
 
-        self.drive = None
-        for keymap in PRIORITY_SEQUENCE:
-            if keymap.get('drive') in self.keys():
-                self.drive = self.get(keymap.get('drive'))
-                break
+        # if not hasattr(self, 'drive'):
+        #     self.drive = None
+        #     for keymap in PRIORITY_SEQUENCE:
+        #         if keymap.get('drive') in self.keys():
+        #             self.drive = self.get(keymap.get('drive'))
+        #             break
 
     def __init__(self, *args, **kwargs):
         self.update(*args, **kwargs)
@@ -99,9 +100,9 @@ class Dict(dict, metaclass=PropertyMeta):
                 return fname
 
     def get_filedir(self):
-        if hasattr(self, 'drive'):
-            if self.drive is not None:
-                DATA_PATH = os.path.join(config.DATA_DIR, self.drive, type(self).__name__)
+        if hasattr(self, 'profile'):
+            if self.profile is not None:
+                DATA_PATH = os.path.join(config.DATA_DIR, self.profile., type(self).__name__)
             else:
                 DATA_PATH = os.path.join(config.DATA_DIR, 'default', type(self).__name__)
 
