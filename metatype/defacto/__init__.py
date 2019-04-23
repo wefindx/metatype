@@ -1,9 +1,9 @@
 KEYMAP = {
-    'id': 'url',
-    'type': None,
-    'auth': None,
-    'intent': None,
-    'drive': None,
+    '_id': 'url',
+    '_type': None,
+    '_auth': None,
+    '_intent': None,
+    '_drive': None,
 }
 
 class Dict(dict):
