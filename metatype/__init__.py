@@ -102,19 +102,21 @@ class Dict(dict, metaclass=PropertyMeta):
             self.set_drive()
 
         if self._drive is not None:
-            drive_name_version = self._drive.split(':',1)[0]       #sample: halfbakery_driver==0.0.1
-            drive_name = drive_name_version.split('==',1)[0]       #sample: halfbakery_driver
-            driver_version = drive_name_version.rsplit('==',1)[-1] #sample: 0.0.1
-            profile_name_pkg_path = self._drive.rsplit(':',1)[-1]  #sample: default.api.Topic
-            profile_name = profile_name_pkg_path.split('.',1)[0]   #sample: default
-            pkg_path = profile_name_pkg_path.split('.',1)[-1]      #sample: api.Topic
+
+            # parsing '@' field:                                    #sample: PyPI::halfbakery_driver==0.0.1:default.api.Topic
+            packman = self._drive.split('::', 1)[0]                 #sample: PyPI  (Conan, NPM, Paket, etc.)
+            drivespec = self._drive.split('::', 1)[-1]              #sample: halfbakery_driver==0.0.1:default.api.Topic
+            driver_name_version = drivespec.split(':',1)[0]         #sample: halfbakery_driver==0.0.1
+            driver_name = driver_name_version.split('==',1)[0]      #sample: halfbakery_driver
+            driver_version = driver_name_version.rsplit('==',1)[-1] #sample: 0.0.1
+            profile_name_pkg_path = drivespec.rsplit(':',1)[-1]     #sample: default.api.Topic
+            profile_name = profile_name_pkg_path.split('.',1)[0]    #sample: default
+            pkg_path = profile_name_pkg_path.split('.',1)[-1]       #sample: api.Topic
 
             if os.name == 'nt':
-                drive_name = '{}__{}'.format(drive_name, profile_name)
+                drive_name = '{}__{}'.format(driver_name, profile_name)
             else:
-                drive_name = '{}:{}'.format(drive_name, profile_name)
-
-            print('DRIVE_NAME::::', drive_name)
+                drive_name = '{}:{}'.format(driver_name, profile_name)
 
             DATA_PATH = os.path.join(config.DATA_DIR, drive_name, type(self).__name__)
         else:
