@@ -104,6 +104,7 @@ class Dict(dict, metaclass=PropertyMeta):
         if self._drive is not None:
 
             # parsing '@' field:                                    #sample: PyPI::halfbakery_driver==0.0.1:default.api.Topic
+            # TBD: Split to separate methods.
             packman = self._drive.split('::', 1)[0]                 #sample: PyPI  (Conan, NPM, Paket, etc.)
             drivespec = self._drive.split('::', 1)[-1]              #sample: halfbakery_driver==0.0.1:default.api.Topic
             driver_name_version = drivespec.split(':',1)[0]         #sample: halfbakery_driver==0.0.1
