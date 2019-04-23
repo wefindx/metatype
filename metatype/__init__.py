@@ -102,7 +102,7 @@ class Dict(dict, metaclass=PropertyMeta):
     def get_filedir(self):
         if hasattr(self, 'profile'):
             if self.profile is not None:
-                DATA_PATH = os.path.join(config.DATA_DIR, self.profile., type(self).__name__)
+                DATA_PATH = os.path.join(config.DATA_DIR, self.profile, type(self).__name__)
             else:
                 DATA_PATH = os.path.join(config.DATA_DIR, 'default', type(self).__name__)
 
