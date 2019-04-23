@@ -102,7 +102,21 @@ class Dict(dict, metaclass=PropertyMeta):
             self.set_drive()
 
         if self._drive is not None:
-            DATA_PATH = os.path.join(config.DATA_DIR, self._drive, type(self).__name__)
+            drive_name_version = self._drive.split(':',1)[0]       #sample: halfbakery_driver==0.0.1
+            drive_name = drive_name_version.split('==',1)[0]       #sample: halfbakery_driver
+            driver_version = drive_name_version.rsplit('==',1)[-1] #sample: 0.0.1
+            profile_name_pkg_path = self._drive.rsplit(':',1)[-1]  #sample: default.api.Topic
+            profile_name = profile_name_pkg_path.split('.',1)[0]   #sample: default
+            pkg_path = profile_name_pkg_path.split('.',1)[-1]      #sample: api.Topic
+
+            if os.name == 'nt':
+                drive_name = '{}__{}'.format(drive_name, profile_name)
+            else:
+                drive_name = '{}:{}'.format(drive_name, profile_name)
+
+            print('DRIVE_NAME::::', drive_name)
+
+            DATA_PATH = os.path.join(config.DATA_DIR, drive_name, type(self).__name__)
         else:
             DATA_PATH = os.path.join(config.DATA_DIR, 'default', type(self).__name__)
             print("Since the _drive or profile is not provided, using default directory {}. The object will be non-resumable.".format(DATA_PATH))
