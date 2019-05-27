@@ -3,15 +3,14 @@
 
 from setuptools import find_packages, setup
 
-with open('README.md', 'r') as f:
+with open('README.rst', 'r') as f:
     long_description = f.read()
 
 setup(
     name='metatype',
-    version='0.1.2.6',
+    version='0.1.2.7',
     description='Implementation of base dict types for metaformat versions.',
     long_description=long_description,
-    long_description_content_type='text/markdown',
     url='https://github.com/wefindx/metatype',
     author='Mindey',
     author_email='mindey@qq.com',
