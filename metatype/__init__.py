@@ -11,6 +11,10 @@ from metatype import config
 from typology.utils import slug
 from metawiki import url2ext
 
+from dateutil.parser import parse as dateparse
+from datetime import timezone, datetime
+
+
 PRIORITY_SEQUENCE = [
     MFT1_KEYMAP,
     JSONLD_KEYMAP,
@@ -85,6 +89,22 @@ class Dict(dict, metaclass=PropertyMeta):
             if keymap.get('_drive') in self.keys():
                 self._drive = self.get(keymap.get('_drive'))
                 break
+
+    def get_date(self):
+        mtime = None
+        possible_fields = ['mtime', 'updated_date', 'modified_date', 'modification_date']
+        for field in possible_fields:
+            mtime = self.get(field)
+            if mtime is not None:
+                break
+
+        if mtime is not None:
+            modification_time = dateparse(mtime).astimezone(timezone.utc).timestamp()
+        else:
+            modification_time = datetime.now().timestamp()
+
+        return modification_time
+
 
     def initialize(self):
         self.set_id()
@@ -180,5 +200,9 @@ class Dict(dict, metaclass=PropertyMeta):
         return os.path.join(dn, fn)
 
     def save(self):
-        with open(self.get_savepath(), 'w') as f:
+        savepath = self.get_savepath()
+
+        with open(savepath, 'w') as f:
             f.write(yaml.dump(dict(self), allow_unicode=True, sort_keys=False))
+
+        os.utime(savepath, (os.path.getatime(savepath), self.get_date()))

@@ -8,7 +8,7 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='metatype',
-    version='0.1.2.7',
+    version='0.1.2.8',
     description='Implementation of base dict types for metaformat versions.',
     long_description=long_description,
     url='https://github.com/wefindx/metatype',
@@ -20,6 +20,7 @@ setup(
         'metawiki',
         'typology',
         'gpgrecord',
+        'python-dateutil',
     ],
     extras_require = {
         'test': ['coverage', 'pytest', 'pytest-cov'],
