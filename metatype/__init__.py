@@ -90,7 +90,7 @@ class Dict(dict, metaclass=PropertyMeta):
                 self._drive = self.get(keymap.get('_drive'))
                 break
 
-    def get_date(self):
+    def object_modtime(self):
         mtime = None
         possible_fields = ['mtime', 'updated_date', 'modified_date', 'modification_date']
         for field in possible_fields:
@@ -104,7 +104,6 @@ class Dict(dict, metaclass=PropertyMeta):
             modification_time = datetime.now().timestamp()
 
         return modification_time
-
 
     def initialize(self):
         self.set_id()
@@ -199,10 +198,18 @@ class Dict(dict, metaclass=PropertyMeta):
         fn = self.get_filename()
         return os.path.join(dn, fn)
 
+    def local_modtime(self):
+        mtime = None
+        savepath = self.get_savepath()
+        if os.path.exists(savepath):
+            return os.path.getmtime(savepath)
+        else:
+            return None
+
     def save(self):
         savepath = self.get_savepath()
 
         with open(savepath, 'w') as f:
             f.write(yaml.dump(dict(self), allow_unicode=True, sort_keys=False))
 
-        os.utime(savepath, (os.path.getatime(savepath), self.get_date()))
+        os.utime(savepath, (os.path.getatime(savepath), self.object_modtime()))
