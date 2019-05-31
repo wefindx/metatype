@@ -44,6 +44,35 @@ class Dict(dict, metaclass=PropertyMeta):
     def drives(cls):
         return cls._DRIVES
 
+    @classmethod
+    def readin(cls, location, schema=None):
+        from tqdm import tqdm #noqa
+        try:
+            loader = yaml.CLoader
+        except:
+            loader = yaml.Loader
+            print('''\
+                  Using slower yaml.Loader, install yaml.CLoader to get faster results, by:
+                  apt install libyaml-dev
+                  pip --no-cache-dir install --verbose --force-reinstall -I pyyaml
+            ''')
+
+
+
+        records = []
+        for fname in tqdm(os.listdir(location)):
+            record = yaml.load(open(os.path.join(location,fname)).read(), Loader=loader)
+
+            if schema is not None:
+                import metaform #noqa
+                records.append(
+                    metaform.formatize(
+                        metaform.normalize(record, schema)))
+
+            else:
+                records.append(record)
+
+        return records
 
     def set_id(self):
         if not hasattr(self, '_id'):
