@@ -21,6 +21,17 @@ PRIORITY_SEQUENCE = [
     DEFACTO_KEYMAP
 ]
 
+try:
+    dumper = yaml.CDumper
+    loader = yaml.CLoader
+except:
+    dumper = yaml.Dumper
+    loader = yaml.Loader
+    print('''\
+Using slower yaml.Dumper/Loader, install CDumper/CLoader to get faster results, by:
+ apt install libyaml-dev
+ pip --no-cache-dir install --verbose --force-reinstall -I pyyaml''')
+
 
 class Dict(dict, metaclass=PropertyMeta):
     '''
@@ -47,17 +58,6 @@ class Dict(dict, metaclass=PropertyMeta):
     @classmethod
     def readin(cls, location, schema=None):
         from tqdm import tqdm #noqa
-        try:
-            loader = yaml.CLoader
-        except:
-            loader = yaml.Loader
-            print('''\
-                  Using slower yaml.Loader, install yaml.CLoader to get faster results, by:
-                  apt install libyaml-dev
-                  pip --no-cache-dir install --verbose --force-reinstall -I pyyaml
-            ''')
-
-
 
         records = []
         for fname in tqdm(os.listdir(location)):
@@ -239,6 +239,6 @@ class Dict(dict, metaclass=PropertyMeta):
         savepath = self.get_savepath()
 
         with open(savepath, 'w') as f:
-            f.write(yaml.dump(dict(self), allow_unicode=True, sort_keys=False))
+            f.write(yaml.dump(dict(self), allow_unicode=True, sort_keys=False, Dumper=dumper))
 
         os.utime(savepath, (os.path.getatime(savepath), self.object_modtime()))
