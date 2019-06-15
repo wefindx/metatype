@@ -59,26 +59,31 @@ class Dict(dict, metaclass=PropertyMeta):
     def readin(cls, location, schema=None, limit=None):
         from tqdm import tqdm #noqa
 
-        records = []
-        n = 0
-        for fname in tqdm(os.listdir(location)):
-            record = yaml.load(open(os.path.join(location,fname)).read(), Loader=loader)
+        if os.path.exists(location):
+            if os.path.isdir(location):
+                records = []
+                n = 0
+                for fname in tqdm(os.listdir(location)):
+                    record = yaml.load(open(os.path.join(location,fname)).read(), Loader=loader)
 
-            if schema is not None:
-                import metaform #noqa
-                records.append(
-                    metaform.formatize(
-                        metaform.normalize(record, schema)))
+                    if schema is not None:
+                        import metaform #noqa
+                        records.append(
+                            metaform.formatize(
+                                metaform.normalize(record, schema)))
 
-            else:
-                records.append(record)
+                    else:
+                        records.append(record)
 
-            if limit is not None:
-                n += 1
-                if n >= limit:
-                    break
+                    if limit is not None:
+                        n += 1
+                        if n >= limit:
+                            break
+                return records
 
-        return records
+            elif os.path.isfile(location):
+                return yaml.load(open(location).read(), Loader=loader)
+
 
     def set_id(self):
         if not hasattr(self, '_id'):

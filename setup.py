@@ -8,7 +8,7 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='metatype',
-    version='0.1.3.2',
+    version='0.1.3.3',
     description='Implementation of base dict types for metaformat versions.',
     long_description=long_description,
     url='https://github.com/wefindx/metatype',
