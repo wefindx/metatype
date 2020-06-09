@@ -179,7 +179,7 @@ class Dict(dict, metaclass=PropertyMeta):
             DATA_PATH = os.path.join(config.DATA_DIR, drive_name, type(self).__name__)
         else:
             DATA_PATH = os.path.join(config.DATA_DIR, 'default', type(self).__name__)
-            print("Since the _drive or profile is not provided, using default directory {}. The object will be non-resumable.".format(DATA_PATH))
+            print("Since the _drive or profile is not provided, using default directory {}. You can provide it by setting _drive attribute, or providing key (e.g., in case of mft1, key is '@' of the form of string '<driver_name>:<session_name>'.) Without it, the object drive session will be non-resumable.".format(DATA_PATH))
 
         if not os.path.exists(DATA_PATH):
             os.makedirs(DATA_PATH)
