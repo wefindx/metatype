@@ -221,7 +221,7 @@ class Dict(dict, metaclass=PropertyMeta):
 
         if self._id is not None:
             hsh = self.get_urlhash() + '.'
-            slg = slug(self._id)
+            slg = slug(self._id, skip_valid=False)
             ext = self.get_extension()
 
             fname = hsh + slg[len(ext)+len(hsh)-config.FILENAME_LENGTH_LIMIT:] + ext
