@@ -1,5 +1,6 @@
 KEYMAP = {
     '_id': '-',
+    '_time': '!',
     '_type': '*',
     '_auth': '+',
     '_intent': '^',

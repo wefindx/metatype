@@ -92,6 +92,15 @@ class Dict(dict, metaclass=PropertyMeta):
                 self._id = self.get(keymap.get('_id'))
                 break
 
+    def set_time(self):
+        if not hasattr(self, '_time'):
+            self._time = None
+
+        for keymap in PRIORITY_SEQUENCE:
+            if keymap.get('_time') in self.keys():
+                self._time = self.get(keymap.get('_time'))
+                break
+
     def set_type(self):
         if not hasattr(self, '_type'):
             self._type = None
@@ -129,12 +138,14 @@ class Dict(dict, metaclass=PropertyMeta):
                 break
 
     def object_modtime(self):
-        mtime = None
-        possible_fields = ['mtime', 'updated_date', 'modified_date', 'modification_date']
-        for field in possible_fields:
-            mtime = self.get(field)
-            if mtime is not None:
-                break
+
+        mtime = self._time
+        if mtime is None:
+            possible_fields = ['mtime', 'updated_date', 'modified_date', 'modification_date']
+            for field in possible_fields:
+                mtime = self.get(field)
+                if mtime is not None:
+                    break
 
         if mtime is not None:
             modification_time = dateparse(mtime).astimezone(timezone.utc).timestamp()
@@ -145,6 +156,7 @@ class Dict(dict, metaclass=PropertyMeta):
 
     def initialize(self):
         self.set_id()
+        self.set_time()
         self.set_type()
         self.set_auth()
         self.set_intent()
